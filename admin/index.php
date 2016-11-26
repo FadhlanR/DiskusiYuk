@@ -29,7 +29,7 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
                           <ul class="dropdown-menu animated fadeInUp">
-                            <li><a href="logout.php">Logout</a></li>
+                            <li><a href="../index.php">Logout</a></li>
                           </ul>
                         </li>
                       </ul>
@@ -47,10 +47,10 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
                 <ul class="nav">
                     <!-- Main menu -->
                     <li><a href="index.php" <?php if(!isset($_GET['page'])){echo 'class="active';}?>><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-                    <li><a href="index.php?page=Dislike Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="User"){echo 'class="active';}?>><i class="glyphicon glyphicon-calendar"></i>Dislike Opinion</a></li>
-                    <li><a href="index.php?page=Sentiment Analysis" <?php if(isset($_GET['page']) && $_GET['page']=="Sistem"){echo 'class="active';}?>><i class="glyphicon glyphicon-calendar"></i>Sentiment Analysis</a></li>
-                    <li><a href="index.php?page=Irrelevant Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="relevansi"){echo 'class="active';}?>><i class="glyphicon glyphicon-stats"></i>Irrelevant Opinion</a></li>
-                    <li><a href="logut.php"><i class="glyphicon glyphicon-stats"></i>Close</a></li>
+                    <li><a href="index.php?page=Dislike Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="User"){echo 'class="active';}?>><i class="glyphicon glyphicon-ban-circle"></i>Dislike Opinion</a></li>
+                    <li><a href="index.php?page=Sentiment Analysis" <?php if(isset($_GET['page']) && $_GET['page']=="Sistem"){echo 'class="active';}?>><i class="glyphicon glyphicon-stats"></i>Sentiment Analysis</a></li>
+                    <li><a href="index.php?page=Irrelevant Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="relevansi"){echo 'class="active';}?>><i class="glyphicon glyphicon-minus-sign"></i>Irrelevant Opinion</a></li>
+                    <li><a href="../user/home.php"><i class="glyphicon glyphicon-off"></i>Close</a></li>
                 </ul>
         </div>
       </div>
