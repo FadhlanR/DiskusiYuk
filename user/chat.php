@@ -14,7 +14,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">Logo</a>
     </div>
@@ -22,9 +22,16 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="home.php">Home</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-      </ul>
+      <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
+            <ul class="dropdown-menu animated fadeInUp">
+              <li><a href="../index.php">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </nav>
@@ -32,10 +39,31 @@
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-4 sidenav">
-      <h3><b>Topik</b></h4>
-      <h4>Admin: Topik</h4>
-      <h4>Rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></h4>
-      <h4>Sumber asli: <a href="#">link</a></h4>
+      <h3><b>Topic</b></h4><p>_</p>
+      <h4>Admin: Topic</h4>
+      <h4>Rating Accumulation: Value Rating</h4>
+      <h4>Rate Us: <select>
+      <option selected disabled>Rate here!</option>
+      <?php
+          for ($i=1; $i<=5; $i++)
+          {
+              ?>
+                  <option value="<?php echo $i;?>"><?php echo $i;?></option>
+              <?php
+          }
+      ?>
+      </select></h4>
+      <h4>Source: <a href="link">url articles <!--<a href=<?php echo $value['url_articles']?>><?php echo $value['title_articles']?>--></a></h4>
+      <p>_</p>
+      <h3><b>Pupolar Opinions</b></h3>
+      <p>_</p>
+      <ul>
+        <li>1. argument</li>
+        <li>2. argument</li>
+        <li>3. argument</li>
+        <li>4. argument</li>
+        <li>5. argument</li>
+      </ul>
     </div>
 
     <div class="col-sm-6">
@@ -56,15 +84,15 @@
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
                                     dolor, quis ullamcorper ligula sodales.
-                                </p> 
+                                </p>
                             </div>
-                                <a class="like"><i class="fa fa-thumbs-o-up"></i>  
+                                <a class="like"><i class="fa fa-thumbs-o-up"></i>
                                     Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
                                     Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
                                     Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
                                 </a>
                         </li>
@@ -81,13 +109,13 @@
                                     dolor, quis ullamcorper ligula sodales.
                                 </p>
                             </div>
-                                <a class="like"><i class="fa fa-thumbs-o-up"></i>  
+                                <a class="like"><i class="fa fa-thumbs-o-up"></i>
                                     Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
                                     Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
                                     Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
                                 </a>
                         </li>
@@ -103,15 +131,15 @@
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
                                     dolor, quis ullamcorper ligula sodales.
                                 </p>
-                                
+
                             </div>
-                            <a class="like"><i class="fa fa-thumbs-o-up"></i>  
+                            <a class="like"><i class="fa fa-thumbs-o-up"></i>
                                     Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
                                     Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
                                     Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
                                 </a>
                         </li>
@@ -128,13 +156,13 @@
                                     dolor, quis ullamcorper ligula sodales.
                                 </p>
                             </div>
-                            <a class="like"><i class="fa fa-thumbs-o-up"></i>  
+                            <a class="like"><i class="fa fa-thumbs-o-up"></i>
                                     Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
                                     Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
                                 </a>
-                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> 
+                                <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
                                     Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
                                 </a>
                         </li>
