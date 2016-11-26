@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 26, 2016 at 07:34
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+-- Host: 127.0.0.1
+-- Generation Time: Nov 26, 2016 at 08:58 PM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -202,7 +202,9 @@ CREATE TABLE `comments` (
   `like_comment` int(11) NOT NULL DEFAULT '0',
   `dislike_comment` int(11) NOT NULL DEFAULT '0',
   `unrelated_comment` int(11) NOT NULL DEFAULT '0',
-  `sentiment_score` int(11) NOT NULL DEFAULT '0',
+  `sentiment_score_positif` float NOT NULL DEFAULT '0',
+  `sentiment_score_negatif` float NOT NULL DEFAULT '0',
+  `sentiment_score_neutral` float NOT NULL DEFAULT '0',
   `showed` int(11) NOT NULL DEFAULT '0',
   `id_discussion_forum` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
@@ -212,15 +214,15 @@ CREATE TABLE `comments` (
 -- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `dislike_comment`, `unrelated_comment`, `sentiment_score`, `showed`, `id_discussion_forum`, `id_user`) VALUES
-(1, 'API google rame banget untuk di eksplor', '2016-11-26 16:05:29', 3, 0, 0, 0, 0, 1, 2),
-(2, 'Tapi susah banget cara pakai APInya', '2016-11-26 08:05:40', 5, 1, 5, 0, 0, 1, 2),
-(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 08:06:21', 1, 1, 0, 0, 0, 1, 1),
-(4, 'Kemana aja kalian semua, topik tentang ahok lebih rame loh', '2016-11-26 08:32:47', 1, 5, 6, 0, 0, 1, 3),
-(5, 'Apa kamu, jangan oot dong, focus ke topik', '2016-11-26 08:33:41', 5, 1, 2, 0, 0, 1, 4),
-(6, 'Betul setuju, mari kembali ke topik. API tuh sebenarnya focus ke mana?', '2016-11-26 08:34:17', 3, 1, 0, 0, 0, 1, 5),
-(7, 'Jadi, API tuh focus ke interaksi data di server dengan pengambilan data di lokal kita nantinya', '2016-11-26 08:35:02', 5, 0, 0, 0, 0, 1, 6),
-(8, 'Anjing lo ul, ga nyambung banget bahasan lo', '2016-11-26 16:05:51', 0, 1, 0, 0, 0, 1, 2);
+INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `dislike_comment`, `unrelated_comment`, `sentiment_score_positif`, `sentiment_score_negatif`, `sentiment_score_neutral`, `showed`, `id_discussion_forum`, `id_user`) VALUES
+(1, 'API google rame banget untuk di eksplor', '2016-11-26 16:05:29', 3, 0, 0, 0, 0, 0, 0, 1, 2),
+(2, 'Tapi susah banget cara pakai APInya', '2016-11-26 08:05:40', 5, 1, 5, 0, 0, 0, 0, 1, 2),
+(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 08:06:21', 1, 1, 0, 0, 0, 0, 0, 1, 1),
+(4, 'Kemana aja kalian semua, topik tentang ahok lebih rame loh', '2016-11-26 08:32:47', 1, 5, 6, 0, 0, 0, 0, 1, 3),
+(5, 'Apa kamu, jangan oot dong, focus ke topik', '2016-11-26 08:33:41', 5, 1, 2, 0, 0, 0, 0, 1, 4),
+(6, 'Betul setuju, mari kembali ke topik. API tuh sebenarnya focus ke mana?', '2016-11-26 08:34:17', 3, 1, 0, 0, 0, 0, 0, 1, 5),
+(7, 'Jadi, API tuh focus ke interaksi data di server dengan pengambilan data di lokal kita nantinya', '2016-11-26 08:35:02', 5, 0, 0, 0, 0, 0, 0, 1, 6),
+(8, 'Anjing lo ul, ga nyambung banget bahasan lo', '2016-11-26 16:05:51', 0, 1, 0, 0, 0, 0, 0, 1, 2);
 
 -- --------------------------------------------------------
 

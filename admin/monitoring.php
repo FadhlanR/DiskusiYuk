@@ -35,8 +35,8 @@
                                     $poin = 'dislike_comment';
                                   }
                                   else if($_GET['page']=="Sentiment Analysis"){
-                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.sentiment_score desc");
-                                    $poin = 'sentiment_score';
+                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.sentiment_score_negatif desc");
+                                    $poin = 'sentiment_score_negatif';
                                   }
                                   else if($_GET['page']=="Irrelevant Opinion"){
                                     $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.unrelated_comment desc");
@@ -45,7 +45,21 @@
                                   $sentimen->bindValue(':id',$id_discussion_forum);
                                   $sentimen->execute();
                                   $sentimen = $sentimen->fetchAll();
+
+                                  require_once __DIR__ . '/../autoload.php';
+                                  $sentiment = new \PHPInsight\Sentiment();
                                   foreach ($sentimen as $key => $value) {
+
+                                    $scores = $sentiment->score($value['comment']);
+                                    $class = $sentiment->categorise($value['comment']);
+
+                                    $statement = $db->prepare("UPDATE comments SET sentiment_score_negatif = :neg, sentiment_score_positif = :pos, sentiment_score_neutral = :neu  WHERE id_comment=:id");
+                                    $statement->bindValue(':neg',$scores['neg']);
+                                    $statement->bindValue(':pos',$scores['pos']);
+                                    $statement->bindValue(':neu',$scores['neu']);
+                                    $statement->bindValue(':id',$value['id_comment']);
+                                    $update = $statement->execute();
+
                                     echo '<tr>
                                             <td>'.$value[$poin].'</td>
                                             <td>'.$value['nick_name'].'</td>

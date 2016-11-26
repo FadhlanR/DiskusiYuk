@@ -61,6 +61,7 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
                         switch($_GET['page'])  {
                           case 'Dislike Opinion': include'monitoring.php'; break;
                           case 'Sentiment Analysis': include 'monitoring.php'; break;
+                          case 'Sentiment System': include 'monitoring.php'; break;
                           case 'Irrelevant Opinion': include 'monitoring.php'; break;
                             }
                           }
