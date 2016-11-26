@@ -7,7 +7,7 @@ include("../credentials.php");
 if($_GET['action']=="delete"){
   deletecomment();
 }
-else if($_GET['action']=="delete"){
+else if($_GET['action']=="block"){
   blockuser();
 }
 
@@ -23,5 +23,7 @@ function blockuser(){
   $result->bindValue(":id",$_GET['id']);
   $success = $result->execute();
 }
+
+header("location:index.php?page=".$_GET['back'].'');
 ?>
 </html>

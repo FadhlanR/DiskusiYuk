@@ -13,7 +13,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <a id="deletecomment" value="" href=""><button type="button" class="btn btn-primary">Delete Comment</button></a>
+        <a id="deletecomment" href=""><button type="button" class="btn btn-primary">Delete Comment</button></a>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <a id="blockuser" value="" href=""><button type="button" class="btn btn-primary">Block User</button></a>
+        <a id="blockuser" href=""><button type="button" class="btn btn-primary">Block User</button></a>
       </div>
     </div>
   </div>

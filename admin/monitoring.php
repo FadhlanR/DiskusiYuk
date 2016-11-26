@@ -51,8 +51,8 @@
                                             <td>'.$value['nick_name'].'</td>
                                             <td>'.$value['added'].'</td>
                                             <td>'.$value['comment'].'</td>
-                                            <td><button class="setting btn btn-danger btn-xs" data-title="Delete" data-comment="'.$value['id_comment'] .'" data-user='.$value['id_comment'] .' data-action="delete">Delete</button></td>
-                                            <td><button class="setting btn btn-danger btn-xs" data-title="Delete" data-comment="'.$value['id_comment'] .'" data-user='.$value['id_comment'] .' data-action="block" >Block</button></td>
+                                            <td><button class="setting btn btn-danger btn-xs" data-back="'.$_GET['page'].'" data-comment="'.$value['id_comment'].'" data-user='.$value['id_user'].' data-action="delete">Delete</button></td>
+                                            <td><button class="setting btn btn-danger btn-xs" data-back="'.$_GET['page'].'" data-comment="'.$value['id_comment'].'" data-user='.$value['id_user'].' data-action="block" >Block</button></td>
                                           </tr>';
                                   }
                                 }

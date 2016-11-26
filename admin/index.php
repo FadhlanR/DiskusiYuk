@@ -77,21 +77,15 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
   <script>
   $(document).on("click", ".setting", function () {
     var action = $(this).attr("data-action");
-    var id
+    var back = $(this).attr("data-back");
     if(action == "delete"){
-      document.getElementById("deletecomment").value = $(this).attr("data-comment");
+      document.getElementById("deletecomment").href = "./setmonitoring.php?id="+$(this).attr("data-comment")+"&&action="+action+"&&back="+back;
       $('#Delete').modal('show');
     }
     else if(action == "block"){
-      document.getElementById("blockuser").value = $(this).attr("data-user");
+      document.getElementById("blockuser").href = "./setmonitoring.php?id="+$(this).attr("data-user")+"&&action="+action+"&&back="+back;
       $('#Block').modal('show');
     }
-  });
-  </script>
-  <script>
-  $(document).on("#deletecomment", ".setting", function () {
-    var id = $(this).attr("data-action");
-    $(this).ajax({url: 'setmonitoring.php?id='+id+'&&action=delete', success: function()});
   });
   </script>
 </html>
