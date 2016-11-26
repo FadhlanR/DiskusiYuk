@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2016 at 09:54 
+-- Generation Time: Nov 26, 2016 at 11:01
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -19,6 +19,35 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_group_discuss`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `articles`
+--
+
+CREATE TABLE `articles` (
+  `id_articles` int(11) NOT NULL,
+  `title_articles` varchar(120) NOT NULL,
+  `excerpt_articles` text NOT NULL,
+  `url_articles` varchar(120) NOT NULL,
+  `time_articles` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `img_url_articles` varchar(120) NOT NULL,
+  `source_name_articles` varchar(80) NOT NULL,
+  `source_url_articles` varchar(120) NOT NULL,
+  `id_categories` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id_categories` int(11) NOT NULL,
+  `name_categories` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -50,7 +79,8 @@ CREATE TABLE `discussion` (
   `finish_date_discussion` date NOT NULL,
   `name_discussion` varchar(40) NOT NULL,
   `rating_discussion` int(11) NOT NULL DEFAULT '0',
-  `id_user` int(11) NOT NULL
+  `id_user` int(11) NOT NULL,
+  `id_articles` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -83,6 +113,19 @@ CREATE TABLE `user` (
 --
 
 --
+-- Indexes for table `articles`
+--
+ALTER TABLE `articles`
+  ADD PRIMARY KEY (`id_articles`),
+  ADD KEY `categories_articles_fk` (`id_categories`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id_categories`);
+
+--
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
@@ -95,7 +138,8 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `discussion`
   ADD PRIMARY KEY (`id_discussion_forum`),
-  ADD KEY `user_discussion_fk` (`id_user`);
+  ADD KEY `user_discussion_fk` (`id_user`),
+  ADD KEY `id_articles` (`id_articles`);
 
 --
 -- Indexes for table `members`
@@ -115,6 +159,16 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `articles`
+--
+ALTER TABLE `articles`
+  MODIFY `id_articles` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id_categories` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `comments`
 --
@@ -140,6 +194,12 @@ ALTER TABLE `user`
 --
 
 --
+-- Constraints for table `articles`
+--
+ALTER TABLE `articles`
+  ADD CONSTRAINT `categories_articles_fk` FOREIGN KEY (`id_categories`) REFERENCES `categories` (`id_categories`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `comments`
 --
 ALTER TABLE `comments`
@@ -150,6 +210,7 @@ ALTER TABLE `comments`
 -- Constraints for table `discussion`
 --
 ALTER TABLE `discussion`
+  ADD CONSTRAINT `articles_discussion_fk` FOREIGN KEY (`id_articles`) REFERENCES `articles` (`id_articles`),
   ADD CONSTRAINT `user_discussion_fk` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
