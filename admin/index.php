@@ -52,7 +52,7 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
                     <li><a href="index.php?page=Dislike Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="User"){echo 'class="active';}?>><i class="glyphicon glyphicon-calendar"></i>Dislike Opinion</a></li>
                     <li><a href="index.php?page=Sentiment Analysis" <?php if(isset($_GET['page']) && $_GET['page']=="Sistem"){echo 'class="active';}?>><i class="glyphicon glyphicon-calendar"></i>Sentiment Analysis</a></li>
                     <li><a href="index.php?page=Irrelevant Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="relevansi"){echo 'class="active';}?>><i class="glyphicon glyphicon-stats"></i>Irrelevant Opinion</a></li>
-                    <li><a href="logut.php"><i class="glyphicon glyphicon-stats"></i> Logout</a></li>
+                    <li><a href="logut.php"><i class="glyphicon glyphicon-stats"></i>Close</a></li>
                 </ul>
         </div>
       </div>
