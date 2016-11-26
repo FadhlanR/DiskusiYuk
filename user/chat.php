@@ -49,7 +49,7 @@ $user = $user->fetch();
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-4 sidenav">
-      <h3><b>Topic</b></h4><p>_</p>
+      <h3><b>Topic</b></h4><p><?php echo $user['name_discussion']?></p>
       <h4>Admin: <?php echo $user['nick_name']?></h4>
       <h4>Rating Accumulation: <?php echo $user['rating_discussion']?></h4>
       <h4>Rate Us: <select>
