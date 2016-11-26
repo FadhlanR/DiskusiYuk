@@ -75,7 +75,7 @@ session_start();
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
-        <img src="$_SESSION['login_user'].jpg" class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
+        <img src='./../img/<?php echo $user['user_photo']?>' class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
       </div>
     </div>
     <div class="col-sm-7">
