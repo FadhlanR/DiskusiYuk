@@ -1,0 +1,89 @@
+.chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+
+
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+
+    .panel-body
+    {
+        overflow-y: scroll;
+        height: 512px;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: auto}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+    .like, .dislike, .relevant, .unrelevant{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background: lightgreen;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    font-size: 14px;
+    }
+    .qty1, .qty2, .qty3, .qty4 {
+        border: none;
+        width:20px;
+        background: transparent;
+    }
