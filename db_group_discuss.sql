@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 26, 2016 at 08:58 PM
--- Server version: 10.1.10-MariaDB
--- PHP Version: 5.6.19
+-- Host: localhost
+-- Generation Time: Nov 26, 2016 at 09:43
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 5.6.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -282,20 +282,21 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `nick_name` varchar(40) NOT NULL,
   `username` varchar(40) NOT NULL,
-  `user_password` varchar(40) NOT NULL
+  `user_password` varchar(40) NOT NULL,
+  `user_photo` varchar(30) NOT NULL DEFAULT 'images.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `nick_name`, `username`, `user_password`) VALUES
-(1, 'husain', 'husain', '123'),
-(2, 'waffi', 'waffi', '123'),
-(3, 'maul', 'maul', '123'),
-(4, 'fadhlan', 'fadhlan', '123'),
-(5, 'saiful', 'saiful', '123'),
-(6, 'imam', 'imam', '123');
+INSERT INTO `user` (`id_user`, `nick_name`, `username`, `user_password`, `user_photo`) VALUES
+(1, 'husain', 'husain', '123', 'images.jpg'),
+(2, 'waffi', 'waffi', '123', 'images.jpg'),
+(3, 'maul', 'maul', '123', 'images.jpg'),
+(4, 'fadhlan', 'fadhlan', '123', 'images.jpg'),
+(5, 'saiful', 'saiful', '123', 'images.jpg'),
+(6, 'imam', 'imam', '123', 'images.jpg');
 
 --
 -- Indexes for dumped tables

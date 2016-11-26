@@ -37,8 +37,6 @@ session_start();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="./../css/option.css">
   <!--<link rel="stylesheet" href="./../css/chat.css">-->
 <nav class="navbar navbar-inverse">
@@ -75,11 +73,7 @@ session_start();
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
-<<<<<<< HEAD
-        <img src="./../img/<?php echo $_SESSION['login_user']?>.jpg" class="img-circle" height="100" width="100" alt="<?php echo $_SESSION['login_user']?>.jpg">
-=======
         <img src='./../img/<?php echo $user['user_photo']?>' class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
->>>>>>> 2542e8f55800506e31871c8a2d833992038f7405
       </div>
     </div>
     <div class="col-sm-7">
@@ -105,7 +99,7 @@ session_start();
             <div id="createroom" class="panel-collapse collapse">
               <div class="panel-body">
                 <p><div class="col-md-5">
-                  <select name="categori">
+                  <select id="categoriescmb">
                     <option value="">Categories</option>
                     <?php foreach ($categories as $key => $value):?>
                       <option value="<?php echo $value['id_categories']?>"><?php echo $value['name_categories']?></option>
@@ -114,18 +108,14 @@ session_start();
                 </form>
                 </div></p>
                 <p>
-                <div class="col-md-5">
-                  <select name="articles">
-                    <option value="">Articles</option>
-                    <?php   $articles = $db->query('SELECT * FROM articles WHERE id_categories = 111')->fetchALL();
-                     foreach ($articles as $key => $value):?>
-                      <option value="<?php echo $value['id_articles']?>"><?php echo $value['title_articles']?></option>
-                    <?php endforeach?>
-                </select>
+                <div id="articles" class="col-md-5">
+									<select id="articlescmb">
+										<?php include('articles.php'); ?>
+									</select>
                 </div></p>
                 <div class="col-md-5">
                 <div class="form-group">
-                    Name: <input type="text" class="form-control" id="usr">         
+                    Name: <input type="text" class="form-control" id="usr">
                   </div>
                   </div>
                   <a href="chat.php"><button class="btn btn-primary">Create</button></a>
@@ -181,6 +171,16 @@ session_start();
 
   </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	$('#categoriescmb').change(function(){
+		var id = $('#categoriescmb').val();
+		$.ajax({url:"articles.php?id="+id,cache:true,success:function(result){
+				$('#articlescmb').html(result);
+  	}});
+	})
+</script>
 <!-- Trigger the modal with a button -->
 <style>
     /* Set black background color, white text and some padding */
