@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <?php
+session_start();
 include("./../credentials.php");
 $db = new PDO(DB_DSN, DB_USER, DB_PASS);
+$user = $db->prepare("SELECT * FROM user u, discussion d WHERE u.username = :u AND u.id_user = d.id_user");
+$user->bindValue(':u',$_SESSION['login_user']);
+$user->execute();
+$user = $user->fetch();
 ?>
 <html lang="en">
 <head>
@@ -19,7 +24,8 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
              <div class="col-md-5">
                 <!-- Logo -->
                 <div class="logo">
-                   <h1><a href="#">Your Group Discuss</a></h1>
+                   <h1><a href="#"><?php echo $user['nick_name'];?> Group Discuss</a></h1>
+                   <p><?php echo $user['name_discussion'];?></p>
                 </div>
              </div>
              <div class="col-md-7">
@@ -55,7 +61,7 @@ $db = new PDO(DB_DSN, DB_USER, DB_PASS);
         </div>
       </div>
                 <?php
-                    $id_discussion_forum = 1;
+                    $id_discussion_forum = $user['id_discussion_forum'];
                     if(isset($_GET['page']))
                       {
                         switch($_GET['page'])  {

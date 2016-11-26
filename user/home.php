@@ -75,7 +75,7 @@ session_start();
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
-        <img src="$_SESSION['login_user'].jpg" class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
+        <img src="./../img/<?php echo $_SESSION['login_user']?>.jpg" class="img-circle" height="100" width="100" alt="<?php echo $_SESSION['login_user']?>.jpg">
       </div>
     </div>
     <div class="col-sm-7">
@@ -185,15 +185,24 @@ session_start();
     <?php } ?>
 </div>
     </div>
-    <div class="col-sm-2 well">
-        <p></p>
-        <p><strong>TOP DISCUSSION</strong></p>
-        <p>Lorem ipsum ...</p>
-        <p>admin: Admin</p>
-        <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
-        <button class="btn btn-primary">Join</button>
-        <p></p>
-    </div>
+
+    <?php
+    $user = $db->prepare("SELECT * FROM user u, discussion d WHERE u.username = :u AND u.id_user = d.id_user");
+    $user->bindValue(':u',$_SESSION['login_user']);
+    $user->execute();
+    $user = $user->fetch();
+    ?>
+    <?php if ($user!=null) {?>
+      <div class="col-sm-2 well">
+          <p><strong>YOUR CURRENT DISCUSSION</strong></p>
+
+          <p>Topic<br><?php echo $user['name_discussion'];?></p>
+          <p>As Admin</p>
+          <p>rating: <?php echo $user['rating_discussion'];?></p>
+          <button class="btn btn-primary">Join</button>
+          <p></p>
+      </div>
+    <?php } ?>
 
   </div>
 </div>
