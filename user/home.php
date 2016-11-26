@@ -4,8 +4,16 @@ session_start();
 	$db = new PDO(DB_DSN, DB_USER, DB_PASS);
 	$error=''; // Variabel untuk menyimpan pesan error
 
-  $result1 = $db1->prepare('SELECT * FROM user WHERE username ='+ $_SESSION['login_user']);
-  $result1->execute();
+  $user = $db->prepare('SELECT * FROM user WHERE username ='+ $_SESSION['login_user']);
+  $user->execute();
+  $categories = $db->query('SELECT * FROM categories')->fetchALL();
+  $comments = $db->query('SELECT * FROM comments')->fetchALL();
+  $discussion = $db->query('SELECT * FROM discussion')->fetchALL();
+  $members = $db->query('SELECT * FROM members')->fetchALL();
+
+  if (isset($_POST['create'])) {
+
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +24,7 @@ session_start();
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./../css/option.css">
   <!--<link rel="stylesheet" href="./../css/chat.css">-->
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -31,9 +40,16 @@ session_start();
       <ul class="nav navbar-nav">
         <li class="active"><a href="home.php">Home</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-      </ul>
+      <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
+            <ul class="dropdown-menu animated fadeInUp">
+              <li><a href="../index.php">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </nav>
@@ -69,57 +85,55 @@ session_start();
 
             <!-- Modal content-->
             <div class="modal-content">
+              <form action="" method="post">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Create Room</h4>
               </div>
               <div class="modal-body">
-              <div class="col-sm-1">
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Kategori
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">HTML</a></li>
-                  <li><a href="#">CSS</a></li>
-                  <li><a href="#">JavaScript</a></li>
-                </ul>
+                <div class="col-md-5">
+                  <select name="categori">
+                    <option value="">Categories</option>
+                    <?php foreach ($categories as $key => $value):?>
+                      <option value="<?php echo $value['id_categories']?>"><?php echo $value['name_categories']?></option>
+                    <?php endforeach?>
+                </select>
+                </form>
                 </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">List Topik
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">HTML</a></li>
-                  <li><a href="#">CSS</a></li>
-                  <li><a href="#">JavaScript</a></li>
-                </ul>
+                <div class="col-md-5">
+                  <select name="articles">
+                    <option value="">Articles</option>
+                    <?php   $articles = $db->query('SELECT * FROM articles WHERE id_categories = 111')->fetchALL();
+                     foreach ($articles as $key => $value):?>
+                      <option value="<?php echo $value['id_articles']?>"><?php echo $value['title_articles']?></option>
+                    <?php endforeach?>
+                </select>
+                </form>
                 </div>
-              </div>
               </div>
               <br>
               </br>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default">Create</button>
+                <input type="submit" name="create" value="Create">
               </div>
+            </form>
             </div>
 
           </div>
         </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
           <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="#">Islam</a></li>
-          <li><a href="#">Politic</a></li>
-          <li><a href="#">Technology</a></li>
+          <?php foreach ($categories as $key => $value):?>
+            <li><a href=<?php echo $value['id_categories']?>><?php echo $value['name_categories']?></a></li>
+          <?php endforeach?>
         </ul>
       </div>
     </div>
-      <form class="col-sm-8" role="search">
+      <form class="col-md-8" role="search">
           <div class="form-group input-group">
             <input type="text" class="form-control" placeholder="Search..">
             <span class="input-group-btn">
@@ -132,56 +146,29 @@ session_start();
     </div>
 
       <div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Topik 1</a>
-      </h4>
-    </div>
-    <div id="collapse1" class="panel-collapse collapse in">
-      <div class="panel-body"><p>Sumber Topik : </p>
-      <p>admin: Admin</p>
-      <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
-      <a href="chat.php"><button class="btn btn-primary">Join</button></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-        Topik 2</a>
-      </h4>
-    </div>
-    <div id="collapse2" class="panel-collapse collapse">
-      <div class="panel-body"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.</p>
-      <p>admin: Admin</p>
-      <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
-      <button class="btn btn-primary">Join</button>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-        Topik 3</a>
-      </h4>
-    </div>
-    <div id="collapse3" class="panel-collapse collapse">
-      <div class="panel-body"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.</p>
-      <p>admin: Admin</p>
-      <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
-      <button class="btn btn-primary">Join</button>
-      </div>
-    </div>
-  </div>
+        <?php
+        $i=0;
+        $categories = $db->query('SELECT * FROM categories a, articles b WHERE a.id_categories = b.id_categories')->fetchALL();
+        foreach ($categories as $key => $value) {
+        $i++;?>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i ?>"><?php echo $value['title_articles']?></a>
+              </h4>
+            </div>
+            <div id="collapse<?php echo $i ?>" class="panel-collapse collapse <?php if($i==1){echo "in";}?>">
+              <div class="panel-body"><p>Url Article: <a href=<?php echo $value['url_articles']?>><?php echo $value['title_articles']?></a></p>
+              <p>Category: <?php echo $value['name_categories']?></p>
+              <p>Admin: Admin</p>
+              <p>Rating: Value Rating<p>
+              <a href="chat.php"><button class="btn btn-primary">Join</button></a>
+              </div>
+            </div>
+          </div>
+
+    <?php } ?>
 </div>
     </div>
     <div class="col-sm-2 well">
