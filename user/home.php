@@ -58,7 +58,7 @@ session_start();
       <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello, <?php echo $_SESSION['login_user']?><b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello, <?php echo $_SESSION['login_user']?>  <b class="caret"></b></a>
             <ul class="dropdown-menu animated fadeInUp">
               <li><a href="../index.php">Logout</a></li>
             </ul>
@@ -75,7 +75,11 @@ session_start();
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
+<<<<<<< HEAD
         <img src="./../img/<?php echo $_SESSION['login_user']?>.jpg" class="img-circle" height="100" width="100" alt="<?php echo $_SESSION['login_user']?>.jpg">
+=======
+        <img src='./../img/<?php echo $user['user_photo']?>' class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
+>>>>>>> 2542e8f55800506e31871c8a2d833992038f7405
       </div>
     </div>
     <div class="col-sm-7">
@@ -90,30 +94,26 @@ session_start();
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-1">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create</button>
-
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <form action="" method="post">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Create Room</h4>
-              </div>
-              <div class="modal-body">
-                <div class="col-md-5">
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#createroom">
+                Create Room</a>
+              </h4>
+            </div>
+            <div id="createroom" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p><div class="col-md-5">
                   <select name="categori">
                     <option value="">Categories</option>
                     <?php foreach ($categories as $key => $value):?>
                       <option value="<?php echo $value['id_categories']?>"><?php echo $value['name_categories']?></option>
                     <?php endforeach?>
                 </select>
-                </div>
+                </form>
+                </div></p>
+                <p>
                 <div class="col-md-5">
                   <select name="articles">
                     <option value="">Articles</option>
@@ -122,42 +122,17 @@ session_start();
                       <option value="<?php echo $value['id_articles']?>"><?php echo $value['title_articles']?></option>
                     <?php endforeach?>
                 </select>
-                </div>
-                <input name="nama" placeholder="nama diskusi"></input>
+                </div></p>
+                <div class="col-md-5">
+                <div class="form-group">
+                    Name: <input type="text" class="form-control" id="usr">         
+                  </div>
+                  </div>
+                  <a href="chat.php"><button class="btn btn-primary">Create</button></a>
               </div>
-              <br>
-              </br>
-              <div class="modal-footer">
-                <input type="submit" name="create" value="Create">
-              </div>
-            </form>
             </div>
-
           </div>
         </div>
-        </div>
-        <div class="col-md-3">
-          <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <?php foreach ($categories as $key => $value):?>
-            <li><a href=<?php echo $value['id_categories']?>><?php echo $value['name_categories']?></a></li>
-          <?php endforeach?>
-        </ul>
-      </div>
-    </div>
-      <form class="col-md-8" role="search">
-          <div class="form-group input-group">
-            <input type="text" class="form-control" placeholder="Search..">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
-          </div>
-        </form>
-    </div>
 
       <div class="panel-group" id="accordion">
         <?php
