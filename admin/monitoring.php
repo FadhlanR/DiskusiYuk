@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Author : Fadhlan Ridhwanallah -->
 <html lang="en">
     <div class="col-md-9">
             <div class="row">
@@ -30,15 +31,15 @@
                               <?php
                                 if(isset($id_discussion_forum)){
                                   if($_GET['page']=="Dislike Opinion"){
-                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 ORDER BY c.dislike_comment desc");
+                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.dislike_comment desc");
                                     $poin = 'dislike_comment';
                                   }
                                   else if($_GET['page']=="Sentiment Analysis"){
-                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 ORDER BY c.sentiment_score desc");
+                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.sentiment_score desc");
                                     $poin = 'sentiment_score';
                                   }
                                   else if($_GET['page']=="Irrelevant Opinion"){
-                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 ORDER BY c.unrelated_comment desc");
+                                    $sentimen = $db->prepare("SELECT * FROM comments c, user u, members m WHERE c.id_discussion_forum = :id AND c.id_user = u.id_user AND c.id_user = m.id_user and m.allowed = 0 and c.showed = 0 ORDER BY c.unrelated_comment desc");
                                     $poin = 'unrelated_comment';
                                   }
                                   $sentimen->bindValue(':id',$id_discussion_forum);
@@ -50,8 +51,8 @@
                                             <td>'.$value['nick_name'].'</td>
                                             <td>'.$value['added'].'</td>
                                             <td>'.$value['comment'].'</td>
-                                            <td><button>Delete</button></td>
-                                            <td><button>Block</button></td>
+                                            <td><button class="setting btn btn-danger btn-xs" data-title="Delete" data-comment="'.$value['id_comment'] .'" data-user='.$value['id_comment'] .' data-action="delete">Delete</button></td>
+                                            <td><button class="setting btn btn-danger btn-xs" data-title="Delete" data-comment="'.$value['id_comment'] .'" data-user='.$value['id_comment'] .' data-action="block" >Block</button></td>
                                           </tr>';
                                   }
                                 }
