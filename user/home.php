@@ -4,16 +4,31 @@ session_start();
 	$db = new PDO(DB_DSN, DB_USER, DB_PASS);
 	$error=''; // Variabel untuk menyimpan pesan error
 
-  $user = $db->prepare('SELECT * FROM user WHERE username ='+ $_SESSION['login_user']);
-  $user->execute();
+  $sql = "SELECT * FROM user WHERE username =:usr";
+  $statement= $db->prepare($sql);
+  $statement->execute(array(':usr'=> $_SESSION['login_user']));
+  $user =  $statement->fetch();
+
   $categories = $db->query('SELECT * FROM categories')->fetchALL();
   $comments = $db->query('SELECT * FROM comments')->fetchALL();
   $discussion = $db->query('SELECT * FROM discussion')->fetchALL();
   $members = $db->query('SELECT * FROM members')->fetchALL();
 
-  if (isset($_POST['create'])) {
+  $currentTime = gmdate("Y-m-d", time()+60*60*7);
 
+
+  if (isset($_POST['create'])) {
+    $result = $db->prepare("INSERT INTO discussion VALUES(NULL,?,?,?,0,?,?)");
+		$result->bindParam(1,$currentTime);
+		$result->bindParam(2,$currentTime);
+		$result->bindParam(3,$_POST['nama']);
+		$result->bindParam(4,$user['id_user']);
+		$result->bindParam(5,$_POST['articles']);
+		$success = $result->execute();
+
+      header("location: ./../admin/index.php");
   }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +113,6 @@ session_start();
                       <option value="<?php echo $value['id_categories']?>"><?php echo $value['name_categories']?></option>
                     <?php endforeach?>
                 </select>
-                </form>
                 </div>
                 <div class="col-md-5">
                   <select name="articles">
@@ -108,8 +122,8 @@ session_start();
                       <option value="<?php echo $value['id_articles']?>"><?php echo $value['title_articles']?></option>
                     <?php endforeach?>
                 </select>
-                </form>
                 </div>
+                <input name="nama" placeholder="nama diskusi"></input>
               </div>
               <br>
               </br>
@@ -148,21 +162,21 @@ session_start();
       <div class="panel-group" id="accordion">
         <?php
         $i=0;
-        $categories = $db->query('SELECT * FROM categories a, articles b WHERE a.id_categories = b.id_categories')->fetchALL();
+        $categories = $db->query('SELECT * FROM categories a, articles b, discussion c, user d WHERE a.id_categories = b.id_categories AND b.id_articles = c.id_articles AND c.id_user = d.id_user')->fetchALL();
         foreach ($categories as $key => $value) {
         $i++;?>
 
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i ?>"><?php echo $value['title_articles']?></a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i ?>"><?php echo $value['name_discussion']?></a>
               </h4>
             </div>
             <div id="collapse<?php echo $i ?>" class="panel-collapse collapse <?php if($i==1){echo "in";}?>">
-              <div class="panel-body"><p>Url Article: <a href=<?php echo $value['url_articles']?>><?php echo $value['title_articles']?></a></p>
+              <div class="panel-body"><p>Article: <a href=<?php echo $value['url_articles']?>><?php echo $value['title_articles']?></a></p>
               <p>Category: <?php echo $value['name_categories']?></p>
-              <p>Admin: Admin</p>
-              <p>Rating: Value Rating<p>
+              <p>Admin: <?php echo $value['nick_name']?></p>
+              <p>Rating: <?php echo $value['rating_discussion']?> Rating<p>
               <a href="chat.php"><button class="btn btn-primary">Join</button></a>
               </div>
             </div>
