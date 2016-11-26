@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2016 at 04:26 PM
+-- Generation Time: Nov 26, 2016 at 04:35 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `sentiment_score` int(11) NOT NULL DEFAULT '0',
   `id_discussion_forum` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `comments`
@@ -214,7 +214,11 @@ CREATE TABLE IF NOT EXISTS `comments` (
 INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `dislike_comment`, `unrelated_comment`, `sentiment_score`, `id_discussion_forum`, `id_user`) VALUES
 (1, 'API google rame banget untuk di eksplor', '2016-11-26 15:04:56', 1, 6, 0, 0, 1, 2),
 (2, 'Tapi susah banget cara pakai APInya', '2016-11-26 15:05:40', 5, 1, 5, 0, 1, 2),
-(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 15:06:21', 1, 1, 0, 0, 1, 1);
+(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 15:06:21', 1, 1, 0, 0, 1, 1),
+(4, 'Kemana aja kalian semua, topik tentang ahok lebih rame loh', '2016-11-26 15:32:47', 1, 5, 6, 0, 1, 3),
+(5, 'Apa kamu, jangan oot dong, focus ke topik', '2016-11-26 15:33:41', 5, 1, 2, 0, 1, 4),
+(6, 'Betul setuju, mari kembali ke topik. API tuh sebenarnya focus ke mana?', '2016-11-26 15:34:17', 3, 1, 0, 0, 1, 5),
+(7, 'Jadi, API tuh focus ke interaksi data di server dengan pengambilan data di lokal kita nantinya', '2016-11-26 15:35:02', 5, 0, 0, 0, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -249,14 +253,19 @@ CREATE TABLE IF NOT EXISTS `members` (
 `id_member` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_discussion_forum` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `members`
 --
 
 INSERT INTO `members` (`id_member`, `id_user`, `id_discussion_forum`) VALUES
-(1, 2, 1);
+(1, 2, 1),
+(2, 1, 1),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 1),
+(6, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -269,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `nick_name` varchar(40) NOT NULL,
   `username` varchar(40) NOT NULL,
   `user_password` varchar(40) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `user`
@@ -277,7 +286,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id_user`, `nick_name`, `username`, `user_password`) VALUES
 (1, 'husain', 'husain', '123'),
-(2, 'waffi', 'waffi', '123');
+(2, 'waffi', 'waffi', '123'),
+(3, 'maul', 'maul', '123'),
+(4, 'fadhlan', 'fadhlan', '123'),
+(5, 'saiful', 'saiful', '123'),
+(6, 'imam', 'imam', '123');
 
 --
 -- Indexes for dumped tables
@@ -327,7 +340,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `discussion`
 --
@@ -337,12 +350,12 @@ MODIFY `id_discussion_forum` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
