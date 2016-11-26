@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2016 at 11:01
+-- Generation Time: Nov 26, 2016 at 11:20
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -138,8 +138,8 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `discussion`
   ADD PRIMARY KEY (`id_discussion_forum`),
-  ADD KEY `user_discussion_fk` (`id_user`),
-  ADD KEY `id_articles` (`id_articles`);
+  ADD KEY `id_articles` (`id_articles`),
+  ADD KEY `user_discussion_fk` (`id_user`);
 
 --
 -- Indexes for table `members`
@@ -159,16 +159,6 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for dumped tables
 --
 
---
--- AUTO_INCREMENT for table `articles`
---
-ALTER TABLE `articles`
-  MODIFY `id_articles` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id_categories` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `comments`
 --
@@ -197,7 +187,7 @@ ALTER TABLE `user`
 -- Constraints for table `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `categories_articles_fk` FOREIGN KEY (`id_categories`) REFERENCES `categories` (`id_categories`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `categories_articles_fk` FOREIGN KEY (`id_categories`) REFERENCES `categories` (`id_categories`);
 
 --
 -- Constraints for table `comments`
@@ -211,7 +201,7 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `discussion`
   ADD CONSTRAINT `articles_discussion_fk` FOREIGN KEY (`id_articles`) REFERENCES `articles` (`id_articles`),
-  ADD CONSTRAINT `user_discussion_fk` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_discussion_fk` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Constraints for table `members`
