@@ -48,11 +48,7 @@ session_start();
 	</head>
 	<body>
 			<center>
-						  <form method="POST" action="" style="width:500px">
-
-									<div class="imgcontainer">
-							    	<img src="img_avatar2.png" alt="logo" class="avatar">
-							  	</div>
+						  <form method="POST" action="" style="width:500px; padding:50px">
 									<input name="username" class="form-control" placeholder="Username" required autofocus>
 									<input type="password" name="password" class="form-control" placeholder="Password" required>
 									<button class="btn btn-lg btn-primary btn-block btn-login" name="submit" type="submit">Log in</button>

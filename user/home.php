@@ -1,3 +1,12 @@
+<?php
+session_start();
+	include("./../credentials.php");
+	$db = new PDO(DB_DSN, DB_USER, DB_PASS);
+	$error=''; // Variabel untuk menyimpan pesan error
+
+  $result1 = $db1->prepare('SELECT * FROM user WHERE username ='+ $_SESSION['login_user']);
+  $result1->execute();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +23,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">Logo</a>
     </div>
@@ -30,22 +39,22 @@
 </nav>
 </head>
 <body>
-<div class="container text-center">    
+<div class="container text-center">
   <div class="row">
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
-        <img src="bird.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+        <img src="$_SESSION['login_user'].jpg" class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
       </div>
     </div>
     <div class="col-sm-7">
-    
+
       <div class="row">
         <div class="col-sm-12">
           <div class="panel panel-default text-left">
             <div class="panel-body">
               <h1>Welcome</h1>
-              <h3>Husain</h3>          
+              <h3><?php echo $_SESSION['login_user']?></h3>
             </div>
           </div>
         </div>
@@ -117,7 +126,7 @@
               <button class="btn btn-default" type="button">
                 <span class="glyphicon glyphicon-search"></span>
               </button>
-            </span>        
+            </span>
           </div>
         </form>
     </div>
@@ -130,10 +139,7 @@
       </h4>
     </div>
     <div id="collapse1" class="panel-collapse collapse in">
-      <div class="panel-body"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.</p>
+      <div class="panel-body"><p>Sumber Topik : </p>
       <p>admin: Admin</p>
       <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
       <a href="chat.php"><button class="btn btn-primary">Join</button></a>
@@ -176,7 +182,7 @@
       </div>
     </div>
   </div>
-</div>   
+</div>
     </div>
     <div class="col-sm-2 well">
         <p></p>
@@ -185,13 +191,13 @@
         <p>admin: Admin</p>
         <p>rating: <img src="paris.jpg" alt="Paris" width="100" height="25"></p>
         <button class="btn btn-primary">Join</button>
-        <p></p>     
+        <p></p>
     </div>
 
   </div>
 </div>
 <!-- Trigger the modal with a button -->
-<style>    
+<style>
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
