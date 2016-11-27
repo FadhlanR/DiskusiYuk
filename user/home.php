@@ -149,7 +149,7 @@ session_start();
               <p>Category: <?php echo $value['name_categories']?></p>
               <p>Admin: <?php echo $value['nick_name']?></p>
               <p>Rating: <?php echo $value['rating_discussion']?> Rating<p>
-              <a href="chat.php?s=<?php echo $value['id_user']?>"><button class="btn btn-primary">Join</button></a>
+              <a href="chat.php"><button class="btn btn-primary">Join</button></a>
               </div>
             </div>
           </div>
@@ -164,6 +164,12 @@ session_start();
           <p>Topic<br><?php echo $user2['name_discussion'];?></p>
           <p>As Admin</p>
           <p>rating: <?php echo $user2['rating_discussion'];?></p>
+          <?php echo "
+            <script type=\"text/javascript\">
+            window.localStorage.clear();
+            localStorage.setItem('nickname',\"$_SESSION[login_user]\");
+            </script>
+            ";?>
           <a href="../admin/index.php" class="btn btn-primary">Enter</a>
           <p></p>
       </div>

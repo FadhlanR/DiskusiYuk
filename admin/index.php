@@ -18,6 +18,12 @@ $user = $user->fetch();
   <link rel="stylesheet" href="./../css/chat.css">
 </head>
   <body>
+  <?php echo "
+            <script type=\"text/javascript\">
+            window.localStorage.clear();
+            localStorage.setItem('nickname',\"$_SESSION[login_user]\");
+            </script>
+            ";?>
     <div class="header">
        <div class="container">
           <div class="row">

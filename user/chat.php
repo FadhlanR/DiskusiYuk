@@ -2,8 +2,8 @@
 session_start();
 include("./../credentials.php");
 $db = new PDO(DB_DSN, DB_USER, DB_PASS);
-$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.id_user = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
-$user->bindValue(':u',$_GET['s']);
+$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.username = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
+$user->bindValue(':u',$_SESSION['login_user']);
 $user->execute();
 $user = $user->fetch();
 ?>
@@ -45,6 +45,79 @@ $user = $user->fetch();
     </div>
   </div>
 </nav>
+<script src="/hackathon/node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>
+   var nickname = localStorage.getItem('nickname');
+
+
+    var socket = io.connect('http://localhost:8080');
+   
+    // on connection to server, ask for user's name with an anonymous callback
+    socket.on('connect', function(){
+        // call the server-side function 'adduser' and send one parameter (value of prompt)
+
+        socket.emit('adduser',nickname );
+    });
+
+    // listener, whenever the server emits 'updatechat', this updates the chat body
+    socket.on('updatechat', function (username, data) {
+      var timeInMs = new Date().toLocaleString("en-US", {timeZone: "Asia/Jakarta"})
+    if(username == "SERVER" )
+    {
+      $('#conversation').append('<li class="right clearfix"><span class="chat-img pull-right"><img width = "50" src="https://cdn4.iconfinder.com/data/icons/cloud-computing-solid-icons-vol-2/72/75-512.png" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div></li>');
+    }
+        else if(username == nickname)
+        {
+            
+            $('#conversation').append('<li class="right clearfix"><span class="chat-img pull-right"><img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div></li>');
+          
+        }
+        else
+        {
+            $('#conversation').append('<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div><a class="like"><i class="fa fa-thumbs-o-up"></i> Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" /></a><a class="dislike"><i class="fa fa-thumbs-o-down"></i>Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" /></a><a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" /></a></li>');
+        }
+
+        
+    });
+   
+    // listener, whenever the server emits 'updaterooms', this updates the room the client is in
+    socket.on('updaterooms', function(rooms, current_room) {
+        $('#rooms').empty();
+        $.each(rooms, function(key, value) {
+            if(value == current_room){
+                $('#rooms').append('<div>' + value + '</div>');
+            }
+            else {
+                $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+            }
+        });
+    });
+
+    function switchRoom(room){
+        socket.emit('switchRoom', room);
+    }
+    
+    // on load of page
+    $(function(){
+        // when the client clicks SEND
+        $('#datasend').click( function() {
+            var message = $('#data').val();
+            $('#data').val('');
+            // tell server to execute 'sendchat' and send along one parameter
+            socket.emit('sendchat', message);
+        });
+
+        // when the client hits ENTER on their keyboard
+        $('#data').keypress(function(e) {
+            if(e.which == 13) {
+                $(this).blur();
+                $('#datasend').focus().click();
+            }
+        });
+    });
+
+</script>
 </head>
 <div class="container-fluid">
   <div class="row content">
@@ -61,18 +134,18 @@ $user = $user->fetch();
                   <option value="<?php echo $i;?>"><?php echo $i;?></option>
               <?php
           }
-          $opinion = $db->prepare("SELECT * FROM comments WHERE showed = 0 ORDER BY like_comment desc");
-          $opinion->execute();
-          $opinion = $opinion->fetchAll();
-     ?>
+      ?>
       </select></h4>
       <h4>Source: <br><a href="<?php echo $user['url_articles']?>"><?php echo $user['url_articles']?></a></h4>
 
-      <h3><b>Popular Opinions</b></h3>
+      <h3><b>Pupolar Opinions</b></h3>
+      <p>_</p>
       <ul>
-        <?php $i=0; foreach ($opinion as $key => $value) {?>
-          <li><?php echo $value['comment']?>  <br> <?php echo $value['like_comment']?> like</li>
-        <?php $i++; if ($i ==5) break; } ?>
+        <li>1. argument</li>
+        <li>2. argument</li>
+        <li>3. argument</li>
+        <li>4. argument</li>
+        <li>5. argument</li>
       </ul>
     </div>
 
@@ -82,87 +155,16 @@ $user = $user->fetch();
         <div class="col-md-9">
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <ul class="chat">
-                      <li class="right clearfix"><span class="chat-img pull-right">
-                          <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                      </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                      <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
-                              </div>
-                              <p>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                  dolor, quis ullamcorper ligula sodales.
-                              </p>
-                          </div>
-                              <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                                  Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                                  Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
-                                  Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
-                              </a>
-                      </li>
-                      <li class="left clearfix"><span class="chat-img pull-left">
-                          <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                      </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                      <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
-                              </div>
-                              <p>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                  dolor, quis ullamcorper ligula sodales.
-                              </p>
-                          </div>
-                              <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                                  Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                                  Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
-                                  Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
-                              </a>
-                      </li>
-                      <li class="right clearfix"><span class="chat-img pull-right">
-                          <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                      </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                      <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
-                              </div>
-                              <p>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                  dolor, quis ullamcorper ligula sodales.
-                              </p>
-                          </div>
-                              <a class="like"><i class="fa fa-thumbs-o-up"></i>
-                                  Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="dislike"><i class="fa fa-thumbs-o-down"></i>
-                                  Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" />
-                              </a>
-                              <a class="unrelevant"><i class="fa fa-thumbs-o-down"></i>
-                                  Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" />
-                              </a>
-                      </li>
+                    <ul class="chat" id ="conversation">
+                        
                     </ul>
-                </div>
-                <div id="content">
-                    <textarea id="chatwindow" rows="19" cols="95"></textarea>
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
-                        <input id="chatnick" type="text" size="0" value="<?php echo $user['nick_name']?>" disabled hidden>
-                        <input id="chatmsg" type="text" class="form-control input-sm" onkeyup="keyup(event.keyCode);" placeholder="Type your message here..." />
+                        <input id="data" type="text" class="form-control input-sm" placeholder="Type your message here..." />
                         <span class="input-group-btn">
-                            <button type="button" value="add" onclick="submit_msg();" class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                            <button class="btn btn-warning btn-sm" id="datasend">
+                                Send</button>
                         </span>
                     </div>
                 </div>
