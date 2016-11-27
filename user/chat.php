@@ -2,8 +2,8 @@
 session_start();
 include("./../credentials.php");
 $db = new PDO(DB_DSN, DB_USER, DB_PASS);
-$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.username = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
-$user->bindValue(':u',$_SESSION['login_user']);
+$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.id_user = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
+$user->bindValue(':u',$_GET['s']);
 $user->execute();
 $user = $user->fetch();
 ?>
