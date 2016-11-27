@@ -149,7 +149,7 @@ session_start();
               <p>Category: <?php echo $value['name_categories']?></p>
               <p>Admin: <?php echo $value['nick_name']?></p>
               <p>Rating: <?php echo $value['rating_discussion']?> Rating<p>
-              <a href="chat.php"><button class="btn btn-primary">Join</button></a>
+              <a href="chat.php?s=<?php echo $value['id_user']?>"><button class="btn btn-primary">Join</button></a>
               </div>
             </div>
           </div>
