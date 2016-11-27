@@ -134,18 +134,19 @@ $user = $user->fetch();
                   <option value="<?php echo $i;?>"><?php echo $i;?></option>
               <?php
           }
+          $opinion = $db->prepare("SELECT * FROM comments WHERE showed = 0 ORDER BY like_comment desc");
+          $opinion->execute();
+          $opinion = $opinion->fetchAll();
+
       ?>
       </select></h4>
       <h4>Source: <br><a href="<?php echo $user['url_articles']?>"><?php echo $user['url_articles']?></a></h4>
 
       <h3><b>Pupolar Opinions</b></h3>
-      <p>_</p>
       <ul>
-        <li>1. argument</li>
-        <li>2. argument</li>
-        <li>3. argument</li>
-        <li>4. argument</li>
-        <li>5. argument</li>
+        <?php $i=0; foreach ($opinion as $key => $value) {?>
+          <li><?php echo $value['comment']?>  <br> <?php echo $value['like_comment']?> like</li>
+        <?php $i++; if ($i ==5) break; } ?>
       </ul>
     </div>
 
