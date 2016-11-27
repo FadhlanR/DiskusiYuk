@@ -21,13 +21,17 @@ session_start();
     $result = $db->prepare("INSERT INTO discussion VALUES(NULL,?,?,?,0,?,?)");
 		$result->bindParam(1,$currentTime);
 		$result->bindParam(2,$currentTime);
-		$result->bindParam(3,$_POST['nama']);
+		$result->bindParam(3,$_POST['usr']);
 		$result->bindParam(4,$user['id_user']);
-		$result->bindParam(5,$_POST['articles']);
+		$result->bindParam(5,$_POST['articlescmb']);
 		$success = $result->execute();
 
       header("location: ./../admin/index.php");
   }
+  $user2 = $db->prepare("SELECT * FROM user u, discussion d WHERE u.username = :u AND u.id_user = d.id_user");
+  $user2->bindValue(':u',$_SESSION['login_user']);
+  $user2->execute();
+  $user2 = $user2->fetch();
 
 ?>
 <!DOCTYPE html>
@@ -73,7 +77,7 @@ session_start();
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">My Profile</a></p>
-        <img src='./../img/<?php echo $user['user_photo']?>' class="img-circle" height="80" width="80" alt="<?php echo $_SESSION['login_user']?>.jpg">
+        <img src='./../img/<?php echo $user['user_photo']?>' class="img-circle" height="80" width="80" alt="<?php echo $user['user_photo']?>">
       </div>
     </div>
     <div class="col-sm-7">
@@ -88,6 +92,7 @@ session_start();
           </div>
         </div>
       </div>
+      <?php if ($user2==null) {?>
         <div class="panel-group">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -96,33 +101,35 @@ session_start();
                 Create Room</a>
               </h4>
             </div>
+
             <div id="createroom" class="panel-collapse collapse">
+							<form action="" method="post">
               <div class="panel-body">
                 <p><div class="col-md-5">
-                  <select id="categoriescmb">
+                  <select name="categoriescmb" id="categoriescmb">
                     <option value="">Categories</option>
                     <?php foreach ($categories as $key => $value):?>
                       <option value="<?php echo $value['id_categories']?>"><?php echo $value['name_categories']?></option>
                     <?php endforeach?>
                 </select>
-                </form>
+
                 </div></p>
                 <p>
                 <div id="articles" class="col-md-5">
-									<select id="articlescmb">
+									<select name="articlescmb" id="articlescmb">
 										<?php include('articles.php'); ?>
 									</select>
                 </div></p>
                 <div class="col-md-5">
-                <div class="form-group">
-                    Name: <input type="text" class="form-control" id="usr">
+                    Name: <input type="text" class="form-control" name="usr" id="usr">
                   </div>
-                  </div>
-                  <a href="chat.php"><button class="btn btn-primary">Create</button></a>
+                  <button class="btn btn-primary" name="create" id="create">Create</button>
               </div>
+							</form>
             </div>
           </div>
         </div>
+        <?php } ?>
 
       <div class="panel-group" id="accordion">
         <?php
@@ -150,21 +157,14 @@ session_start();
     <?php } ?>
 </div>
     </div>
-
-    <?php
-    $user = $db->prepare("SELECT * FROM user u, discussion d WHERE u.username = :u AND u.id_user = d.id_user");
-    $user->bindValue(':u',$_SESSION['login_user']);
-    $user->execute();
-    $user = $user->fetch();
-    ?>
-    <?php if ($user!=null) {?>
+    <?php if ($user2!=null) {?>
       <div class="col-sm-2 well">
           <p><strong>YOUR CURRENT DISCUSSION</strong></p>
 
-          <p>Topic<br><?php echo $user['name_discussion'];?></p>
+          <p>Topic<br><?php echo $user2['name_discussion'];?></p>
           <p>As Admin</p>
-          <p>rating: <?php echo $user['rating_discussion'];?></p>
-          <button class="btn btn-primary">Join</button>
+          <p>rating: <?php echo $user2['rating_discussion'];?></p>
+          <a href="../admin/index.php" class="btn btn-primary">Enter</a>
           <p></p>
       </div>
     <?php } ?>
