@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 27, 2016 at 03:03
+-- Generation Time: Nov 27, 2016 at 03:08
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -232,8 +232,8 @@ INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `disli
 
 CREATE TABLE `discussion` (
   `id_discussion_forum` int(11) NOT NULL,
-  `start_date_discussion` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `finish_date_discussion` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `start_date_discussion` timestamp NULL DEFAULT NULL,
+  `finish_date_discussion` timestamp NULL DEFAULT NULL,
   `name_discussion` varchar(40) NOT NULL,
   `rating_discussion` int(11) NOT NULL DEFAULT '0',
   `id_user` int(11) NOT NULL,
