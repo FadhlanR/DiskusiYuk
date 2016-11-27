@@ -2,8 +2,8 @@
 session_start();
 include("./../credentials.php");
 $db = new PDO(DB_DSN, DB_USER, DB_PASS);
-$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.username = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
-$user->bindValue(':u',$_SESSION['login_user']);
+$user = $db->prepare("SELECT * FROM user u, discussion d, articles a WHERE u.id_user = :u AND u.id_user = d.id_user AND d.id_articles = a.id_articles");
+$user->bindValue(':u',$_GET['s']);
 $user->execute();
 $user = $user->fetch();
 ?>
@@ -52,7 +52,7 @@ $user = $user->fetch();
 
 
     var socket = io.connect('http://localhost:8080');
-   
+
     // on connection to server, ask for user's name with an anonymous callback
     socket.on('connect', function(){
         // call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -69,18 +69,18 @@ $user = $user->fetch();
     }
         else if(username == nickname)
         {
-            
+
             $('#conversation').append('<li class="right clearfix"><span class="chat-img pull-right"><img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div></li>');
-          
+
         }
         else
         {
             $('#conversation').append('<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div><a class="like"><i class="fa fa-thumbs-o-up"></i> Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" /></a><a class="dislike"><i class="fa fa-thumbs-o-down"></i>Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" /></a><a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" /></a></li>');
         }
 
-        
+
     });
-   
+
     // listener, whenever the server emits 'updaterooms', this updates the room the client is in
     socket.on('updaterooms', function(rooms, current_room) {
         $('#rooms').empty();
@@ -97,7 +97,7 @@ $user = $user->fetch();
     function switchRoom(room){
         socket.emit('switchRoom', room);
     }
-    
+
     // on load of page
     $(function(){
         // when the client clicks SEND
@@ -156,7 +156,7 @@ $user = $user->fetch();
             <div class="panel panel-primary">
                 <div class="panel-body">
                     <ul class="chat" id ="conversation">
-                        
+
                     </ul>
                 </div>
                 <div class="panel-footer">
