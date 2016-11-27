@@ -92,7 +92,7 @@ session_start();
           </div>
         </div>
       </div>
-      <?php if ($user2==null) {?>
+      <?php if ($user2==null || (isset($user2) && $user2['finish_date_discussion'] != null)) {?>
         <div class="panel-group">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -157,7 +157,7 @@ session_start();
     <?php } ?>
 </div>
     </div>
-    <?php if ($user2!=null) {?>
+    <?php if (($user2!=null) && ($user2['finish_date_discussion']==null)){?>
       <div class="col-sm-2 well">
           <p><strong>YOUR CURRENT DISCUSSION</strong></p>
 
