@@ -62,6 +62,7 @@ $user = $user->fetch();
                     <li><a href="index.php?page=Dislike Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="User"){echo 'class="active';}?>><i class="glyphicon glyphicon-ban-circle"></i>Dislike Opinion</a></li>
                     <li><a href="index.php?page=Sentiment Analysis" <?php if(isset($_GET['page']) && $_GET['page']=="Sistem"){echo 'class="active';}?>><i class="glyphicon glyphicon-stats"></i>Sentiment Analysis</a></li>
                     <li><a href="index.php?page=Irrelevant Opinion" <?php if(isset($_GET['page']) && $_GET['page']=="relevansi"){echo 'class="active';}?>><i class="glyphicon glyphicon-minus-sign"></i>Irrelevant Opinion</a></li>
+                    <li><a href="./setmonitoring.php?id=<?php echo $user['id_discussion_forum']?>&&action=stop"><i class="glyphicon glyphicon-off"></i>Stop Discussion</a></li>
                     <li><a href="../user/home.php"><i class="glyphicon glyphicon-off"></i>Close</a></li>
                 </ul>
         </div>

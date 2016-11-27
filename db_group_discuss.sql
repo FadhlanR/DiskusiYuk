@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2016 at 09:43
+-- Generation Time: Nov 27, 2016 at 03:08
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -215,14 +215,14 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `dislike_comment`, `unrelated_comment`, `sentiment_score_positif`, `sentiment_score_negatif`, `sentiment_score_neutral`, `showed`, `id_discussion_forum`, `id_user`) VALUES
-(1, 'API google rame banget untuk di eksplor', '2016-11-26 16:05:29', 3, 0, 0, 0, 0, 0, 0, 1, 2),
-(2, 'Tapi susah banget cara pakai APInya', '2016-11-26 08:05:40', 5, 1, 5, 0, 0, 0, 0, 1, 2),
-(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 08:06:21', 1, 1, 0, 0, 0, 0, 0, 1, 1),
-(4, 'Kemana aja kalian semua, topik tentang ahok lebih rame loh', '2016-11-26 08:32:47', 1, 5, 6, 0, 0, 0, 0, 1, 3),
-(5, 'Apa kamu, jangan oot dong, focus ke topik', '2016-11-26 08:33:41', 5, 1, 2, 0, 0, 0, 0, 1, 4),
-(6, 'Betul setuju, mari kembali ke topik. API tuh sebenarnya focus ke mana?', '2016-11-26 08:34:17', 3, 1, 0, 0, 0, 0, 0, 1, 5),
-(7, 'Jadi, API tuh focus ke interaksi data di server dengan pengambilan data di lokal kita nantinya', '2016-11-26 08:35:02', 5, 0, 0, 0, 0, 0, 0, 1, 6),
-(8, 'Anjing lo ul, ga nyambung banget bahasan lo', '2016-11-26 16:05:51', 0, 1, 0, 0, 0, 0, 0, 1, 2);
+(1, 'API google rame banget untuk di eksplor', '2016-11-26 20:44:12', 3, 0, 0, 0.727, 0.182, 0.091, 0, 1, 2),
+(2, 'Tapi susah banget cara pakai APInya', '2016-11-26 20:44:12', 5, 1, 5, 0.286, 0.571, 0.143, 0, 1, 2),
+(3, 'Tenang Sodara Waffi, anda harus tetap semangat', '2016-11-26 20:44:12', 1, 1, 0, 0.615, 0.308, 0.077, 0, 1, 1),
+(4, 'Kemana aja kalian semua, topik tentang ahok lebih rame loh', '2016-11-26 20:44:12', 1, 5, 6, 0.333, 0.333, 0.333, 0, 1, 3),
+(5, 'Apa kamu, jangan oot dong, focus ke topik', '2016-11-26 20:44:12', 5, 1, 2, 0.333, 0.333, 0.333, 0, 1, 4),
+(6, 'Betul setuju, mari kembali ke topik. API tuh sebenarnya focus ke mana?', '2016-11-26 20:44:12', 3, 1, 0, 0.444, 0.444, 0.111, 0, 1, 5),
+(7, 'Jadi, API tuh focus ke interaksi data di server dengan pengambilan data di lokal kita nantinya', '2016-11-26 20:44:12', 5, 0, 0, 0.4, 0.4, 0.2, 0, 1, 6),
+(8, 'Anjing lo ul, ga nyambung banget bahasan lo', '2016-11-26 20:44:12', 0, 1, 0, 0.286, 0.571, 0.143, 0, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -232,8 +232,8 @@ INSERT INTO `comments` (`id_comment`, `comment`, `added`, `like_comment`, `disli
 
 CREATE TABLE `discussion` (
   `id_discussion_forum` int(11) NOT NULL,
-  `start_date_discussion` date NOT NULL,
-  `finish_date_discussion` date NOT NULL,
+  `start_date_discussion` timestamp NULL DEFAULT NULL,
+  `finish_date_discussion` timestamp NULL DEFAULT NULL,
   `name_discussion` varchar(40) NOT NULL,
   `rating_discussion` int(11) NOT NULL DEFAULT '0',
   `id_user` int(11) NOT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE `discussion` (
 --
 
 INSERT INTO `discussion` (`id_discussion_forum`, `start_date_discussion`, `finish_date_discussion`, `name_discussion`, `rating_discussion`, `id_user`, `id_articles`) VALUES
-(1, '2016-11-01', '2016-11-01', 'Discussion 1', 5, 1, 2268206);
+(1, '2016-11-27 02:01:19', '2016-11-27 02:03:15', 'Discussion 1', 5, 1, 2268206);
 
 -- --------------------------------------------------------
 
@@ -358,7 +358,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `discussion`
 --
 ALTER TABLE `discussion`
-  MODIFY `id_discussion_forum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_discussion_forum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `members`
 --
