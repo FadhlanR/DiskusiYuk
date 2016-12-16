@@ -26,7 +26,7 @@ $user = $user->fetch();
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand" href="#">Diskusi Yuk</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -48,20 +48,17 @@ $user = $user->fetch();
 <script src="/hackathon/node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script>
+var un;
    var nickname = localStorage.getItem('nickname');
-
-
     var socket = io.connect('http://localhost:8080');
-
     // on connection to server, ask for user's name with an anonymous callback
     socket.on('connect', function(){
         // call the server-side function 'adduser' and send one parameter (value of prompt)
-
-        socket.emit('adduser',nickname );
+        socket.emit('adduser', nickname );
     });
-
     // listener, whenever the server emits 'updatechat', this updates the chat body
     socket.on('updatechat', function (username, data) {
+      un = username;
       var timeInMs = new Date().toLocaleString("en-US", {timeZone: "Asia/Jakarta"})
     if(username == "SERVER" )
     {
@@ -69,18 +66,13 @@ $user = $user->fetch();
     }
         else if(username == nickname)
         {
-
             $('#conversation').append('<li class="right clearfix"><span class="chat-img pull-right"><img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div></li>');
-
         }
         else
         {
-            $('#conversation').append('<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div><a class="like"><i class="fa fa-thumbs-o-up"></i> Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="0" /></a><a class="dislike"><i class="fa fa-thumbs-o-down"></i>Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="0" /></a><a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="0" /></a></li>');
+            $('#conversation').append('<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><strong class="primary-font"></strong><span class="glyphicon glyphicon-time"></span>'+timeInMs+'</small><strong class="pull-right primary-font">'+username+'</strong></div><p>'+data+'</p></div><a class="like"><i class="fa fa-thumbs-o-up"></i> Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="" /></a><a class="dislike"><i class="fa fa-thumbs-o-down"></i>Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="" /></a><a class="unrelevant"><i class="fa fa-thumbs-o-down"></i> Unrelevant <input class="qty4"  name="qty4" readonly="readonly" type="text" value="" /></a></li>');
         }
-
-
     });
-
     // listener, whenever the server emits 'updaterooms', this updates the room the client is in
     socket.on('updaterooms', function(rooms, current_room) {
         $('#rooms').empty();
@@ -93,21 +85,30 @@ $user = $user->fetch();
             }
         });
     });
-
     function switchRoom(room){
         socket.emit('switchRoom', room);
     }
-
     // on load of page
     $(function(){
         // when the client clicks SEND
-        $('#datasend').click( function() {
+         $('#datasend').click( function() {
             var message = $('#data').val();
-            $('#data').val('');
+            var myData={"Message":message,"Nickname":un};
+            $.ajax({
+            url : "../functions/InsertComment.php",
+            type: "POST",
+            data : myData,
+            success: function(data,status,xhr)
+             {
+                //if success then just output the text to the status div then clear the form inputs to prepare for new data
+                $('#data').val('');
+                 }
+
+            }); 
+            
             // tell server to execute 'sendchat' and send along one parameter
             socket.emit('sendchat', message);
         });
-
         // when the client hits ENTER on their keyboard
         $('#data').keypress(function(e) {
             if(e.which == 13) {
@@ -116,7 +117,6 @@ $user = $user->fetch();
             }
         });
     });
-
 </script>
 </head>
 <div class="container-fluid">
@@ -137,12 +137,11 @@ $user = $user->fetch();
           $opinion = $db->prepare("SELECT * FROM comments WHERE showed = 0 ORDER BY like_comment desc");
           $opinion->execute();
           $opinion = $opinion->fetchAll();
-
       ?>
       </select></h4>
       <h4>Source: <br><a href="<?php echo $user['url_articles']?>"><?php echo $user['url_articles']?></a></h4>
 
-      <h3><b>Pupolar Opinions</b></h3>
+      <h3><b>Popular Opinions</b></h3>
       <ul>
         <?php $i=0; foreach ($opinion as $key => $value) {?>
           <li><?php echo $value['comment']?>  <br> <?php echo $value['like_comment']?> like</li>
@@ -180,56 +179,3 @@ $user = $user->fetch();
 </footer>
 </body>
 </html>
-<script type="text/javascript">
-/* most simple ajax chat script (www.linuxuser.at) (GPLv2) */
-var nick_maxlength=10;
-var http_request=false;
-var http_request2=false;
-var intUpdate;
-
-/* http_request for writing */
-function ajax_request(url){http_request=false;if(window.XMLHttpRequest){http_request=new XMLHttpRequest();
-  if(http_request.overrideMimeType){http_request.overrideMimeType('text/xml');}}
-  else if(window.ActiveXObject){try{http_request=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){try{http_request=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}}
-
-if(!http_request){alert('Giving up :( Cannot create an XMLHTTP instance');return false;}
-http_request.onreadystatechange=alertContents;http_request.open('GET',url,true);http_request.send(null);}
-function alertContents(){if(http_request.readyState==4){if(http_request.status==200){rec_response(http_request.responseText);}else{}}}
-
-/* http_request for reading */
-function ajax_request2(url){http_request2=false;if(window.XMLHttpRequest){http_request2=new XMLHttpRequest();
-  if(http_request2.overrideMimeType){http_request2.overrideMimeType('text/xml');}}
-  else if(window.ActiveXObject){try{http_request2=new ActiveXObject("Msxml2.XMLHTTP");}catch(e){try{http_request2=new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}}}
-
-if(!http_request2){alert('Giving up :( Cannot create an XMLHTTP instance');return false;}
-http_request2.onreadystatechange=alertContents2;http_request2.open('GET',url,true);http_request2.send(null);}
-function alertContents2(){if(http_request2.readyState==4){if(http_request2.status==200){rec_chatcontent(http_request2.responseText);}else{}}}
-
-/* chat stuff */
-chatmsg.focus()
-var show_newmsg_on_bottom=1;     /* set to 0 to let new msg´s appear on top */
-var waittime=3000;        /* time between chat refreshes (ms) */
-
-intUpdate=window.setTimeout("read_cont();", waittime);
-chatwindow.value = "loading...";
-
-function read_cont()         { zeit = new Date(); ms = (zeit.getHours() * 24 * 60 * 1000) + (zeit.getMinutes() * 60 * 1000) + (zeit.getSeconds() * 1000) + zeit.getMilliseconds(); ajax_request2("./../chat/chat.txt?x=" + ms); }
-function display_msg(msg1)     { chatwindow.value = msg1.trim(); }
-function keyup(arg1)         { if (arg1 == 13) submit_msg(); }
-function submit_msg()         { clearTimeout(intUpdate); if (chatnick.value == "") { check = prompt("please enter username:");
-if (check === null) return 0; if (check == "") check="..."; chatnick.value=check; }
-if (chatnick.value.length > nick_maxlength) chatnick.value=chatnick.value.substring(0,nick_maxlength); spaces="";
-for(i=0;i<(nick_maxlength-chatnick.value.length);i++) spaces+=" "; v=chatwindow.value.substring(chatwindow.value.indexOf("\n")) + "\n" + chatnick.value + spaces + "| " + chatmsg.value;
-if (chatmsg.value != "") chatwindow.value=v.substring(1); write_msg(chatmsg.value,chatnick.value); chatmsg.value=""; intUpdate=window.setTimeout("read_cont();", waittime);}
-function write_msg(msg1,nick1)     { ajax_request("./../chat/w.php?m=" + escape(msg1) + "&n=" + escape(nick1)); }
-function rec_response(str1)     { }
-
-function rec_chatcontent(cont1) {
-    if (cont1 != "") {
-        out1 = unescape(cont1);
-        if (show_newmsg_on_bottom == 0) { out1 = ""; while (cont1.indexOf("\n") > -1) { out1 = cont1.substr(0, cont1.indexOf("\n")) + "\n" + out1; cont1 = cont1.substr(cont1.indexOf("\n") + 1); out1 = unescape(out1); } }
-        if (chatwindow.value != out1) { display_msg(out1); }
-        intUpdate=window.setTimeout("read_cont()", waittime);
-    }
-}
-</script>
